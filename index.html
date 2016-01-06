@@ -8,8 +8,10 @@
   <body>
     <div class="container">
       <p>
-        <label for="new-task">Add Item</label><span id="tasksLeft"></span>
-        <input id="new-task" type="text" placeholder="What needs to be done?"><button>Add</button>
+         <button id="clearAll">&sum;</button>
+        <span id="tasksLeft"></span>
+        <label for="new-task">Add Item</label>
+        <input id="new-task" type="text" placeholder="What needs to be done?"><button id="addTask">Add</button>
       </p>
       <h3 id="todos">Todo</h3>
       <ul id="incomplete-tasks"></ul>
@@ -17,7 +19,7 @@
       <ul id="completed-tasks"></ul>
     </div>
 
-    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="src/app.js"></script>
 
   </body>
 </html>

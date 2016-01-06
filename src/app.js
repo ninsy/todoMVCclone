@@ -1,26 +1,55 @@
 var newTaskInput = document.getElementById("new-task");
-var addButton = document.getElementsByTagName("button")[0];
+var addButton = document.getElementById("addTask");
 var incompleteTasks = document.getElementById("incomplete-tasks");
 var completedTasks = document.getElementById("completed-tasks");
 
 var completedTasksHeader = document.getElementById('completes');
 var incompleteTasksHeader = document.getElementById('todos');
 
-newTaskInput.addEventListener("focus", function() {
- resetInput(this);
-});
+var completeButton = document.getElementById("clearAll");
 
-addButton.addEventListener("click", function() {
-  var newTaskText = newTaskInput.value;
-  if(newTaskText.length > 0) {
-    addTask(newTaskText);
-    newTaskInput.value = "";
+var validateInput = function(inputString) {
+  if(inputString.trim().length > 0) return true;
+  else return false;
+}
+
+var addNewTask = function(inputValue) {
+   if(validateInput(inputValue)) {
+    addTask(inputValue);
+    resetInput(newTaskInput);
   }
   else {
     newTaskInput.style.color = 'tomato';
     newTaskInput.style.fontSize = '14px';
     newTaskInput.value = "New task's name length must be greater than 0!";
   }
+}
+
+newTaskInput.addEventListener("focus", function() {
+ resetInput(this);
+});
+
+completeButton.addEventListener("click", function() {
+  // for(var i = incompleteTasks.children.length; i >= 0; i-- ) {
+  //   completedTasks.appendChild(incompleteTasks.children[i]);
+  // }
+  for(var i = 0; i < incompleteTasks.children.length; i++ ) {
+    completedTasks.appendChild(incompleteTasks.children[i]);
+  }
+  checkHeaders();
+  countTasks();
+})
+
+newTaskInput.addEventListener("keydown", function(event) {
+  if(event.which == 13) {
+    addNewTask(this.value);
+    this.blur();
+  }
+})
+
+addButton.addEventListener("click", function() {
+  resetInput(this);
+  addNewTask(newTaskInput.value);
 });
 
 var addTask = function (taskName) {
@@ -85,6 +114,7 @@ var deleteTask = function() {
   var currentTaskGroup = currentTask.parentNode;
   currentTaskGroup.removeChild(currentTask);
   checkHeaders();
+  countTasks();
 }
 
 var completeTask = function() {
@@ -127,10 +157,28 @@ var bindButtonsToTasks = function(listTaskItem, actionToBeBound) {
    editButton.onclick = editTask;
   deleteButton.onclick = deleteTask;
   checkHeaders();
+  countTasks();
 }
 
 traverseThrough(incompleteTasks, "unfinished");
 traverseThrough(completedTasks, "finished");
+
+var countTasks = function() {
+  var countSpan = document.getElementById("tasksLeft");
+  var taskCount = incompleteTasks.children.length;
+  if(taskCount == 0) {
+     countSpan.style.color = "green";
+     countSpan.innerText = "No tasks left!"
+  }
+  else if(taskCount == 1) {
+     countSpan.style.color = "black";
+     countSpan.innerText = "1 task left.";
+  }
+  else {
+     countSpan.style.color = "black";
+     countSpan.innerText = taskCount + " tasks left.";
+  }
+}
 
 
 function checkHeaders() {

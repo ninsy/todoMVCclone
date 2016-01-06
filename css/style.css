@@ -9,8 +9,17 @@ body {
   width: 400px;
   margin: 100px auto 0;
 }
+#clearAll {
+    display: block;
+    text-align: center;
+    margin: 0 auto;
+    float: left;
+}
 #tasksLeft {
- float:right 
+ display: block;
+ float:right;
+ position: relative;
+ bottom:  -30px;
 }
 ul {
   margin: 0;
